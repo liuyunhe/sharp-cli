@@ -1,3 +1,4 @@
-test-cli/node_modules/
-test-cli-lib/node_modules/
+node_modules
+dist
+coverage
 
