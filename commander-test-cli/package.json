@@ -1,9 +1,9 @@
 {
-  "name": "yargs-test-cli",
+  "name": "commander-test-cli",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "index.js",
   "bin": {
-    "yargs-test-cli": "lib/index.js"
+    "commander-test-cli": "lib/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "yargs": "^17.7.2"
+    "commander": "^13.1.0",
+    "yargs-test-cli": "^1.0.0"
   }
 }
