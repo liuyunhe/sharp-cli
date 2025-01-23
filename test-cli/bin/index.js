@@ -19,3 +19,5 @@ if (option === 'sum') {
 } else { 
   console.log('Invalid option')
 }
+
+require('./inquirer/index')

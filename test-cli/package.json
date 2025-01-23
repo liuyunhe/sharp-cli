@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "inquirer": "^12.3.2",
     "test-cli-lib": "^1.0.0"
   }
 }
