@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('./inquirer/ansi')
+
 const lib = require('test-cli-lib')
 
 console.log(lib.sum(1,2))
