@@ -1,7 +1,10 @@
 {
-  "name": "@stest/test-cli-a",
+  "name": "@stest/test-cli-cli",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "sharp-test-cli": "bin/cli.js"
+  },
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +13,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "chalk": "^5.4.1"
+    "@stest/test-cli-a": "^1.0.0"
   }
 }
