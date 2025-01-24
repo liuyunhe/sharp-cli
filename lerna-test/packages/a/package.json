@@ -1,0 +1,30 @@
+{
+  "name": "@shepardliu/lerna-test-a",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "liuyunhe <liuyunhe666@aliyun.com>",
+  "homepage": "https://github.com/liuyunhe/sharp-cli#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "type": "module",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuyunhe/sharp-cli.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/a.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/liuyunhe/sharp-cli/issues"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
+  }
+}
