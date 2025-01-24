@@ -5,6 +5,7 @@
   "scripts": {
     "cli": "w-cli"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,10 +13,12 @@
   "workspaces": [
     "a",
     "b",
-    "cli",
-    "c"
+    "cli"
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@shepardliu/test-cli": "^1.0.3"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@shepardliu/test-cli",
   "version": "1.0.3",
-  "main": "index.js",
+  "main": "bin/cli.mjs",
   "bin": {
     "w-cli": "bin/cli.mjs"
   },
