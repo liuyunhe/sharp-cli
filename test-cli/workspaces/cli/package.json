@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@stest/test-cli-a": "^1.0.0"
+    "@stest/test-cli-a": "^1.0.0",
+    "b": "^1.0.0"
   }
 }
