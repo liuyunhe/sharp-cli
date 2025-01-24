@@ -1,0 +1,18 @@
+{
+  "name": "@stest/cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "w-cli": "bin/cli.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@stest/a": "^1.0.0",
+    "b": "^1.0.0"
+  }
+}
