@@ -1,6 +1,6 @@
 {
-  "name": "@stest/cli",
-  "version": "1.0.0",
+  "name": "@shepardliu/test-cli",
+  "version": "1.0.3",
   "main": "index.js",
   "bin": {
     "w-cli": "bin/cli.mjs"
@@ -12,7 +12,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@stest/a": "^1.0.0",
-    "b": "^1.0.0"
+    "@shepardliu/test-cli-a": "^1.0.1",
+    "@shepardliu/test-cli-b": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

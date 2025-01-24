@@ -14,5 +14,8 @@
     "b",
     "cli",
     "c"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
