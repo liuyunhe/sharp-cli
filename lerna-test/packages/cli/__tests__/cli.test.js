@@ -1,6 +1,3 @@
-import cli from '../src/cli';
+import cli from '../src/cli.js';
 
-describe('cli cli', () => {
-  // const argv = cli(cwd).parse(['args']);
-  it('needs tests');
-});
+console.log('cli',cli);

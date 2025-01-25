@@ -1,7 +1,9 @@
 'use strict';
 
-const a = require('..');
-const assert = require('assert').strict;
+import a from '../lib/index.js';
+import assert from 'assert';
 
-assert.strictEqual(a(), 'Hello from a');
+const { strict } = assert
+
+strict.strictEqual(a(), 'Hello from a')
 console.info('a tests passed');
