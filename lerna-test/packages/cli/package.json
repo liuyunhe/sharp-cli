@@ -10,6 +10,9 @@
   "bin": {
     "lerna-test-cli": "bin/cli.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "directories": {
     "lib": "dist",
     "test": "__tests__"
