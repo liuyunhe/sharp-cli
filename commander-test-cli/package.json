@@ -13,7 +13,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "commander": "^13.1.0",
-    "yargs-test-cli": "^1.0.0"
+    "commander": "^13.1.0"
   }
 }
