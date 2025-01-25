@@ -6,6 +6,7 @@ import a from '@shepardliu/lerna-test-a'
 import b from '@shepardliu/lerna-test-b'
 console.log(cli)
 console.log(chalk.red('hello world'))
+console.log(chalk.red('hello world123'))
 // eslint-disable-next-line no-unused-expressions
 cli().parse(process.argv.slice(2));
 console.log(chalk.blue(a()))
