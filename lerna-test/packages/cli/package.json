@@ -26,6 +26,8 @@
     "test": "node ./__tests__/cli.test.js"
   },
   "dependencies": {
+    "@shepardliu/lerna-test-a": "^0.0.1",
+    "@shepardliu/lerna-test-b": "^0.0.1",
     "chalk": "^5.4.1",
     "yargs": "^17.7.2"
   },
