@@ -1,6 +1,6 @@
 {
   "name": "@shepardliu/lerna-test-cli",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "> TODO: description",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
   "homepage": "https://github.com/liuyunhe/sharp-cli#readme",
@@ -30,8 +30,8 @@
     "test": "node ./__tests__/cli.test.js"
   },
   "dependencies": {
-    "@shepardliu/lerna-test-a": "^0.0.3",
-    "@shepardliu/lerna-test-b": "^0.0.3",
+    "@shepardliu/lerna-test-a": "^1.0.0",
+    "@shepardliu/lerna-test-b": "^1.0.0",
     "chalk": "^5.4.1",
     "yargs": "^17.7.2"
   },
