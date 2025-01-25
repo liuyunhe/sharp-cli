@@ -1,0 +1,30 @@
+{
+  "name": "@shepardliu/init",
+  "version": "0.0.0",
+  "description": "init command",
+  "author": "liuyunhe <liuyunhe666@aliyun.com>",
+  "homepage": "https://github.com/liuyunhe/sharp-cli#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuyunhe/sharp-cli.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/init.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/liuyunhe/sharp-cli/issues"
+  },
+  "dependencies": {
+    "@shepardliu/command": "^0.0.0",
+    "@shepardliu/utils": "^0.0.0"
+  }
+}
