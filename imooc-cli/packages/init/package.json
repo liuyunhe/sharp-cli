@@ -26,5 +26,6 @@
   "dependencies": {
     "@shepardliu/command": "^0.0.0",
     "@shepardliu/utils": "^0.0.0"
-  }
+  },
+  "type": "module"
 }

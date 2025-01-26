@@ -1,8 +1,8 @@
 'use strict'
 
-const Command = require('@shepardliu/command')
+import Command from '@shepardliu/command'
 
-const { log } = require('@shepardliu/utils')
+import { log } from'@shepardliu/utils'
 
 class InitCommand extends Command {
 
@@ -69,4 +69,4 @@ function Init(instance) {
   return new InitCommand(instance)
 }
 
-module.exports = Init
+export default Init

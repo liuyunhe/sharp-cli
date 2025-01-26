@@ -1,5 +1,5 @@
-const log = require('npmlog')
-const isDebug = require('./isDebug')
+import log from 'npmlog'
+import isDebug from'./isDebug.js'
 
 if (isDebug()) {
   log.level = 'verbose'
@@ -10,4 +10,4 @@ if (isDebug()) {
 log.heading = 'sharp-cli' // 设置log前缀
 log.addLevel('success', 2000, { fg: 'green',bg: 'black', bold: true }) // 自定义log级别
 
-module.exports = log
+export default log
