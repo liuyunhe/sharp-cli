@@ -12,7 +12,7 @@ import { filename } from 'dirname-filename-esm'
 
 const __filename = filename(import.meta)
 
-console.log('__filename', __filename)
+log.verbose('__filename', __filename)
 
 if (importLocal(__filename)) {
   log.info('cli', '使用本地 sharp-cli 版本')
