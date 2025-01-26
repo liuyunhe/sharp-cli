@@ -17,9 +17,9 @@ import { log } from '@shepardliu/utils'
 
 const __dirname = dirname(import.meta)
 
-console.log('__dirname', __dirname)
+log.verbose('process.cwd()', process.cwd())
 
-console.log('process.cwd()', process.cwd())
+log.verbose('__dirname', __dirname)
 
 // console.log('import.meta',import.meta)
 
