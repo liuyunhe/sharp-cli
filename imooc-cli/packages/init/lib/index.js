@@ -58,10 +58,10 @@ class InitCommand extends Command {
     log.verbose('do init', name, opts)
   }
   preAction() {
-    console.log('preAction')
+    log.verbose('init preAction')
   }
   postAction() {
-    console.log('postAction')
+    log.verbose('init postAction')
   }
 }
 
