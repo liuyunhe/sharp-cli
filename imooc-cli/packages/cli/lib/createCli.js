@@ -68,8 +68,8 @@ export default function createCli() {
     }
   })
 
-  program.on('command:*', function () {
-    log.error('未知的命令')
+  program.on('command:*', function (obj) {
+    log.error('未知的命令:' + obj[0])
   })
 
   return program
