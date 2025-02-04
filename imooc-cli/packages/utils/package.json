@@ -24,6 +24,7 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
+    "inquirer": "^12.4.1",
     "npmlog": "^7.0.1"
   },
   "type": "module"
