@@ -1,5 +1,5 @@
 {
-  "name": "@shepardliu/init",
+  "name": "@sharpcli/init",
   "version": "0.0.0",
   "description": "init command",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
@@ -24,8 +24,8 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
-    "@shepardliu/command": "^0.0.0",
-    "@shepardliu/utils": "^0.0.0"
+    "@sharpcli/command": "^0.0.0",
+    "@sharpcli/utils": "^0.0.0"
   },
   "type": "module"
 }

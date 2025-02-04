@@ -1,5 +1,5 @@
 // 导入日志记录器，用于全局日志输出
-import { log, isDebug } from '@shepardliu/utils'
+import { log, isDebug } from '@sharpcli/utils'
 
 function printErrorLog(err, type) {
   if (isDebug()) {

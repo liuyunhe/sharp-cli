@@ -1,5 +1,5 @@
 import createCli from './createCli.js'
-import createInitCommand from '@shepardliu/init'
+import createInitCommand from '@sharpcli/init'
 import './exception.js'
 
 export default function (args) {

@@ -1,5 +1,5 @@
 {
-  "name": "@shepardliu/cli",
+  "name": "@sharpcli/cli",
   "version": "0.0.0",
   "description": "A cli tool for sharp",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
@@ -28,8 +28,8 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
-    "@shepardliu/init": "^0.0.0",
-    "@shepardliu/utils": "^0.0.0",
+    "@sharpcli/init": "^0.0.0",
+    "@sharpcli/utils": "^0.0.0",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "dirname-filename-esm": "^1.1.2",

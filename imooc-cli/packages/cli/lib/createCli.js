@@ -11,7 +11,7 @@ import chalk from 'chalk'
 
 import fse from 'fs-extra'
 
-import { log } from '@shepardliu/utils'
+import { log } from '@sharpcli/utils'
 
 // import pkg from '../package.json'
 

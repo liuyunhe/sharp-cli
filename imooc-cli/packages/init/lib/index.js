@@ -1,8 +1,9 @@
 'use strict'
 
-import Command from '@shepardliu/command'
+import Command from '@sharpcli/command'
+import { log } from '@sharpcli/utils'
+import createTemplate from './createTemplate.js'
 
-import { log } from'@shepardliu/utils'
 
 class InitCommand extends Command {
 
@@ -56,6 +57,7 @@ class InitCommand extends Command {
    */
   action([name, opts]) {
     log.verbose('do init', name, opts)
+    createTemplate(name, opts)
   }
   preAction() {
     log.verbose('init preAction')

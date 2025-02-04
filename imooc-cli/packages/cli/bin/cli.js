@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import importLocal from 'import-local'
-import { log } from '@shepardliu/utils'
+import { log } from '@sharpcli/utils'
 import entry from '../lib/index.js'
 // import { fileURLToPath } from 'node:url'
 import { filename } from 'dirname-filename-esm'
