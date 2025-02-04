@@ -4,8 +4,21 @@ import Command from '@sharpcli/command'
 import { log } from '@sharpcli/utils'
 import createTemplate from './createTemplate.js'
 import downloadTemplate from './downloadTemplate.js'
+import installTemplate from './installTemplate.js'
 
-
+/**
+ * 初始化命令
+ * 
+ * sharp-cli init aaa -t project --tp template-react -f
+ * 
+ * 或
+ * 
+ * sharp-cli init 
+ *
+ * @class
+ * @extends Command
+ * @param {Object} instance - 命令行实例
+ */
 class InitCommand extends Command {
   /**
    * 获取初始化命令
@@ -40,7 +53,8 @@ class InitCommand extends Command {
   get options() {
     return [
       ['-f, --force', 'overwrite target directory if it exists', false],
-      ['-p, --preview', '是否开启预览模式', false]
+      ['-t, --type <type>', '项目类型 (值：project/page)'],
+      ['--tp, --template <template>', '模版名称']
     ]
   }
 
@@ -62,6 +76,8 @@ class InitCommand extends Command {
     log.verbose('selectedTemplate', selectedTemplate)
     // 2.下载项目模板至缓存目录
     await downloadTemplate(selectedTemplate)
+    // 3.安装项目模版至项目目录
+    await installTemplate(selectedTemplate, opts)
   }
   preAction() {
     log.verbose('init preAction')

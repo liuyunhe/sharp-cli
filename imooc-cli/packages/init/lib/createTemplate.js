@@ -69,19 +69,35 @@ function makeTargetPath() {
 }
 
 export default async function createTemplate(name, opts) {
-  const addType = await getAddType()
+  const { type = null, template = null } = opts
+  let addType, addName, addTemplate
+  if (type) {
+    addType = type
+  } else {
+    addType = await getAddType()
+  }
   log.verbose('addType', addType)
   if (addType === ADD_TYPE_PROJECT) {
-
-    const addName = await getAddName()
+    if (name) {
+      addName = name
+    }else {
+      addName = await getAddName()
+    }
     log.verbose('addName', addName)
 
-    const addTemplate = await getAddTemplate(ADD_TEMPLATE)
+    if (template) { 
+      addTemplate = template
+    }else {
+      addTemplate = await getAddTemplate(ADD_TEMPLATE)
+    }
     log.verbose('addTemplate', addTemplate)
 
     const selectedTemplate = ADD_TEMPLATE.find(
       (item) => item.value === addTemplate
     )
+    if (!selectedTemplate) { 
+      throw new Error(`项目模板${addTemplate}不存在`)
+    }
     log.verbose('selectedTemplate', selectedTemplate)
 
     const latestVersion = await getLatestVersion(selectedTemplate.npmName)
@@ -90,7 +106,7 @@ export default async function createTemplate(name, opts) {
     selectedTemplate.version = latestVersion
 
     const targetPath = makeTargetPath()
-    
+
     return {
       type: addType,
       name: addName,
@@ -98,5 +114,6 @@ export default async function createTemplate(name, opts) {
       targetPath
     }
   } else {
+    throw new Error(`创建的项目类型${addType}不支持`)
   }
 }
