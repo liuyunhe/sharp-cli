@@ -61,7 +61,9 @@ export default function createCli() {
     .version(pkg.version)
     .option('-d, --debug', '是否开启调试模式', false)
     .hook('preAction', preAction)
-  
+    // .version(pkg.version, '-v, --version', '查看当前版本号')
+    // .helpOption('-h, --help', '查看帮助信息')
+
   program.on('option:debug', function () {
     if (program.opts().debug) {
       log.verbose('开启调试模式')
