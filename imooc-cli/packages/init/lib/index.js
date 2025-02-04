@@ -3,20 +3,20 @@
 import Command from '@sharpcli/command'
 import { log } from '@sharpcli/utils'
 import createTemplate from './createTemplate.js'
+import downloadTemplate from './downloadTemplate.js'
 
 
 class InitCommand extends Command {
-
   /**
    * 获取初始化命令
    *
    * 此属性返回用于初始化的命令格式
-   * 命令格式为 'init <name>'，其中 <name> 是一个占位符
+   * 命令格式为 'init [name]'，其中 [name] 是一个可选参数
    *
    * @returns {string} 初始化命令的格式
    */
   get command() {
-    return 'init <name>'
+    return 'init [name]'
   }
 
   /**
@@ -55,9 +55,13 @@ class InitCommand extends Command {
    *   - opts {Object} - 初始化操作的选项
    * @returns {undefined} 此函数不返回任何值
    */
-  action([name, opts]) {
+  async action([name, opts]) {
     log.verbose('do init', name, opts)
-    createTemplate(name, opts)
+    // 1.选择项目模板，生成项目信息
+    const selectedTemplate = await createTemplate(name, opts)
+    log.verbose('selectedTemplate', selectedTemplate)
+    // 2.下载项目模板至缓存目录
+    await downloadTemplate(selectedTemplate)
   }
   preAction() {
     log.verbose('init preAction')
