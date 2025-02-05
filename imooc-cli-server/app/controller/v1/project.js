@@ -22,7 +22,11 @@ class ProjectController extends Controller {
 
   // 项目模板新增
   create() {
-    this.ctx.body = 'create';
+    const { ctx } = this;
+    const body = ctx.request.body;
+    console.log(body);
+    ctx.model.Project.create(body);
+    ctx.body = 'ok';
   }
 
   // 项目模板更新
