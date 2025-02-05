@@ -1,0 +1,15 @@
+{
+  "name": "@sharpcli/template-vue",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shepardliu <liuyunhe666@aliyun.com>",
+  "license": "ISC",
+  "description": "sharpcli vue3 template",
+  "publishConfig": {
+    "access": "public"
+  }
+  
+}

@@ -11,15 +11,15 @@ import chalk from 'chalk'
 
 import fse from 'fs-extra'
 
-import { log } from '@shepardliu/utils'
+import { log } from '@sharpcli/utils'
 
 // import pkg from '../package.json'
 
 const __dirname = dirname(import.meta)
 
-log.verbose('process.cwd()', process.cwd())
-
 log.verbose('__dirname', __dirname)
+
+log.verbose('process.cwd()', process.cwd())
 
 // console.log('import.meta',import.meta)
 
@@ -54,10 +54,25 @@ function preAction(opts) {
 
 export default function createCli() {
   log.success('shepard-cli version', pkg.version)
-  return program
+
+  program
     .name(Object.keys(pkg.bin)[0])
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '是否开启调试模式', false)
     .hook('preAction', preAction)
+    // .version(pkg.version, '-v, --version', '查看当前版本号')
+    // .helpOption('-h, --help', '查看帮助信息')
+
+  program.on('option:debug', function () {
+    if (program.opts().debug) {
+      log.verbose('开启调试模式')
+    }
+  })
+
+  program.on('command:*', function (obj) {
+    log.error('未知的命令:' + obj[0])
+  })
+
+  return program
 }

@@ -1,21 +1,35 @@
 'use strict'
 
-import Command from '@shepardliu/command'
+import Command from '@sharpcli/command'
+import { log } from '@sharpcli/utils'
+import createTemplate from './createTemplate.js'
+import downloadTemplate from './downloadTemplate.js'
+import installTemplate from './installTemplate.js'
 
-import { log } from'@shepardliu/utils'
-
+/**
+ * 初始化命令
+ * 
+ * sharp-cli init aaa -t project --tp template-react -f
+ * 
+ * 或
+ * 
+ * sharp-cli init 
+ *
+ * @class
+ * @extends Command
+ * @param {Object} instance - 命令行实例
+ */
 class InitCommand extends Command {
-
   /**
    * 获取初始化命令
    *
    * 此属性返回用于初始化的命令格式
-   * 命令格式为 'init <name>'，其中 <name> 是一个占位符
+   * 命令格式为 'init [name]'，其中 [name] 是一个可选参数
    *
    * @returns {string} 初始化命令的格式
    */
   get command() {
-    return 'init <name>'
+    return 'init [name]'
   }
 
   /**
@@ -39,7 +53,8 @@ class InitCommand extends Command {
   get options() {
     return [
       ['-f, --force', 'overwrite target directory if it exists', false],
-      ['-p, --preview', '是否开启预览模式', false]
+      ['-t, --type <type>', '项目类型 (值：project/page)'],
+      ['--tp, --template <template>', '模版名称']
     ]
   }
 
@@ -54,14 +69,21 @@ class InitCommand extends Command {
    *   - opts {Object} - 初始化操作的选项
    * @returns {undefined} 此函数不返回任何值
    */
-  action([name, opts]) {
+  async action([name, opts]) {
     log.verbose('do init', name, opts)
+    // 1.选择项目模板，生成项目信息
+    const selectedTemplate = await createTemplate(name, opts)
+    log.verbose('selectedTemplate', selectedTemplate)
+    // 2.下载项目模板至缓存目录
+    await downloadTemplate(selectedTemplate)
+    // 3.安装项目模版至项目目录
+    await installTemplate(selectedTemplate, opts)
   }
   preAction() {
-    console.log('preAction')
+    log.verbose('init preAction')
   }
   postAction() {
-    console.log('postAction')
+    log.verbose('init postAction')
   }
 }
 

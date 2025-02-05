@@ -1,5 +1,5 @@
 {
-  "name": "@shepardliu/utils",
+  "name": "@sharpcli/utils",
   "version": "0.0.0",
   "description": "utils",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
@@ -24,7 +24,10 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
-    "npmlog": "^7.0.1"
+    "axios": "^1.7.9",
+    "inquirer": "^12.4.1",
+    "npmlog": "^7.0.1",
+    "url-join": "^5.0.0"
   },
   "type": "module"
 }
