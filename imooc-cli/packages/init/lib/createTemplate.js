@@ -51,7 +51,7 @@ async function getTemplateFromAPI() {
       url: '/project/template',
       method: 'GET'
     })
-    log.verbose('template', data)
+    log.verbose('getTemplateFromAPI', data)
     return data
   } catch (error) {
     printErrorLog(error, '获取模版失败')
