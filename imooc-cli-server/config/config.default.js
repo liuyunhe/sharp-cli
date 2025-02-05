@@ -16,6 +16,16 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
+
+  config.mongoose = {
+    url: 'mongodb://liuyh:123456@127.0.0.1:27017/sharpcli',
+  };
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

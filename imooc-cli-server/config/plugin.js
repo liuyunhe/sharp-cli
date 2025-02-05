@@ -1,7 +1,6 @@
-/** @type Egg.EggPlugin */
-module.exports = {
-  // had enabled by egg
-  // static: {
-  //   enable: true,
-  // }
+'use strict';
+
+exports.mongoose = {
+  enable: true,
+  package: 'egg-mongoose',
 };
