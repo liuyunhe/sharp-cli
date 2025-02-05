@@ -14,6 +14,12 @@ const ADD_TEMPLATE = [
     value: 'template-react',
     npmName: '@sharpcli/template-react',
     version: '1.0.0'
+  },
+  {
+    name: 'vue-element-admin模版',
+    value: 'template-vue-element-admin',
+    npmName: '@sharpcli/template-vue-element-admin',
+    version: '1.0.0'
   }
 ]
 
@@ -98,7 +104,7 @@ export default async function createTemplate(name, opts) {
     if (!selectedTemplate) { 
       throw new Error(`项目模板${addTemplate}不存在`)
     }
-    log.verbose('selectedTemplate', selectedTemplate)
+    // log.verbose('selectedTemplate', selectedTemplate)
 
     const latestVersion = await getLatestVersion(selectedTemplate.npmName)
     log.verbose('latestVersion', latestVersion)
