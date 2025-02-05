@@ -1,0 +1,14 @@
+{
+  "name": "@sharpcli/template-vue-element-admin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shepardliu <liuyunhe666@aliyun.com>",
+  "license": "ISC",
+  "description": "sharpcli vue-element-admin template",
+  "publishConfig": {
+    "access": "public"
+  }
+}
