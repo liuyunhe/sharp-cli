@@ -1,27 +1,34 @@
 import { homedir } from 'node:os'
 import path from 'node:path'
-import { log, makeList, makeInput, getLatestVersion } from '@sharpcli/utils'
+import {
+  log,
+  makeList,
+  makeInput,
+  getLatestVersion,
+  request,
+  printErrorLog
+} from '@sharpcli/utils'
 
-const ADD_TEMPLATE = [
-  {
-    name: 'vue3模版',
-    value: 'template-vue',
-    npmName: '@sharpcli/template-vue',
-    version: '1.0.0'
-  },
-  {
-    name: 'react18模版',
-    value: 'template-react',
-    npmName: '@sharpcli/template-react',
-    version: '1.0.0'
-  },
-  {
-    name: 'vue-element-admin模版',
-    value: 'template-vue-element-admin',
-    npmName: '@sharpcli/template-vue-element-admin',
-    version: '1.0.0'
-  }
-]
+// const ADD_TEMPLATE = [
+//   {
+//     name: 'vue3模版',
+//     value: 'template-vue',
+//     npmName: '@sharpcli/template-vue',
+//     version: '1.0.0'
+//   },
+//   {
+//     name: 'react18模版',
+//     value: 'template-react',
+//     npmName: '@sharpcli/template-react',
+//     version: '1.0.0'
+//   },
+//   {
+//     name: 'vue-element-admin模版',
+//     value: 'template-vue-element-admin',
+//     npmName: '@sharpcli/template-vue-element-admin',
+//     version: '1.0.0'
+//   }
+// ]
 
 const ADD_TYPE_PROJECT = 'project'
 const ADD_TYPE_PAGE = 'page'
@@ -36,6 +43,21 @@ const ADD_TYPE = [
   }
 ]
 const TEMP_HOME = '.cli-imooc'
+
+// 通过api获取项目模版
+async function getTemplateFromAPI() {
+  try {
+    const data = await request({
+      url: '/project/template',
+      method: 'GET'
+    })
+    log.verbose('template', data)
+    return data
+  } catch (error) {
+    printErrorLog(error, '获取模版失败')
+    return null
+  }
+}
 
 // 获取创建类型
 function getAddType() {
@@ -61,7 +83,7 @@ function getAddName() {
 }
 
 // 选择项目模板
-function getAddTemplate() {
+function getAddTemplate(ADD_TEMPLATE) {
   return makeList({
     choices: ADD_TEMPLATE,
     message: '请选择项目模板'
@@ -75,6 +97,11 @@ function makeTargetPath() {
 }
 
 export default async function createTemplate(name, opts) {
+  // 获取模版
+  const ADD_TEMPLATE = await getTemplateFromAPI()
+  if (!ADD_TEMPLATE) {
+    throw new Error('项目模版不存在')
+  }
   const { type = null, template = null } = opts
   let addType, addName, addTemplate
   if (type) {

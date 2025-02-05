@@ -4,6 +4,7 @@ import log from './log.js'
 import isDebug from './isDebug.js'
 import { makeList, makeInput, makePassword } from './inquirer.js'
 import { getLatestVersion } from './npm.js'
+import request from './request.js'
 
 
 export function printErrorLog(e, type) {
@@ -14,4 +15,12 @@ export function printErrorLog(e, type) {
   }
 }
 
-export { log, isDebug, makeList, makeInput, makePassword, getLatestVersion }
+export {
+  log,
+  isDebug,
+  makeList,
+  makeInput,
+  makePassword,
+  getLatestVersion,
+  request
+}
