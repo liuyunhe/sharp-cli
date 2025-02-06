@@ -1,10 +1,15 @@
 <script setup>
+<%_ if (data.mode === 'api') { _%>
+console.log('request api')
+<%_ } _%>
 </script>
 
 <template>
-  <h1>
-    hello vue-template
-  </h1>
+  <%_ if(data.mode === 'api') { _%>
+  <div>request api</div>
+  <%_ } else { _%>
+  <div>default</div>
+  <%_ } _%>
 </template>
 
 <style scoped>
