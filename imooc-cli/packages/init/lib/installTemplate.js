@@ -4,7 +4,7 @@ import ora from 'ora'
 import { pathExistsSync } from 'path-exists'
 import ejs from 'ejs'
 import { glob } from 'glob'
-import { log } from '@sharpcli/utils'
+import { log, makeInput, makeList } from '@sharpcli/utils'
 
 /**
  * 根据目标路径和模板对象生成缓存文件路径
@@ -17,6 +17,12 @@ function getCacheFilePath(targetPath, template) {
   // 使用path.resolve方法构建并返回缓存文件的绝对路径
   // 路径组成部分包括：目标路径、'node_modules'、模板的npm名称、'template'
   return path.resolve(targetPath, 'node_modules', template.npmName, 'template')
+}
+
+function getPluginFilePath(targetPath, template) {
+  // 使用path.resolve方法构建并返回缓存文件的绝对路径
+  // 路径组成部分包括：目标路径、'node_modules'、模板的npm名称、'template'
+  return path.resolve(targetPath, 'node_modules', template.npmName, 'plugins', 'index.js')
 }
 
 /**
@@ -53,13 +59,27 @@ function copyFile(targetPath, template, installDir) {
  * @param {Object} template - 模板对象，包含忽略项和值
  * @param {string} name - 传递给模板的数据名称
  */
-function ejsRender(installDir, template, name) {
+async function ejsRender(targetPath, installDir, template, name) {
   // 解构模板对象，获取忽略项数组和值，如果未提供则使用默认空数组
   const { ignore = [] } = template
+  let data = {}
+  // 执行插件
+  const pluginPath = getPluginFilePath(targetPath, template)
+  log.verbose('pluginPath', pluginPath)
+  if (pathExistsSync(pluginPath)) {
+    const pluginFn = (await import(`file://${pluginPath}`)).default
+    log.verbose('pluginFn', pluginFn)
+    const api = {
+      makeList,
+      makeInput
+    }
+    data = await pluginFn(api)
+  }
   // 创建包含名称数据的对象，用于EJS模板渲染
   const ejsData = {
     data: {
-      name
+      name,
+      ...data
     }
   }
   // 使用glob函数异步获取安装目录下所有文件路径，忽略node_modules目录和其他指定的忽略项
@@ -126,5 +146,5 @@ export default async function installTemplate(selectedTemplate, opts) {
   // 复制模板文件到安装目录
   copyFile(targetPath, template, installDir)
   // 使用ejs模板引擎渲染安装目录中的文件
-  ejsRender(installDir, template, name)
+  await ejsRender(targetPath, installDir, template, name)
 }
