@@ -19,10 +19,19 @@ function getCacheFilePath(targetPath, template) {
   return path.resolve(targetPath, 'node_modules', template.npmName, 'template')
 }
 
+/**
+ * 根据目标路径和模板信息获取插件文件的路径
+ * 此函数用于计算插件文件的绝对路径，以便在给定的目标路径和模板信息下定位到具体的插件文件
+ * 它通过拼接目标路径、'node_modules'、模板的npm名称、'template'、'plugins'和'index.js'来构建最终路径
+ * 
+ * @param {string} targetPath - 目标路径，这是构建最终插件路径的起始点
+ * @param {Object} template - 包含模板信息的对象，必须包含npmName属性，用于构建路径
+ * @returns {string} 返回构建的插件文件的绝对路径
+ */
 function getPluginFilePath(targetPath, template) {
   // 使用path.resolve方法构建并返回缓存文件的绝对路径
-  // 路径组成部分包括：目标路径、'node_modules'、模板的npm名称、'template'
-  return path.resolve(targetPath, 'node_modules', template.npmName, 'plugins', 'index.js')
+  // 路径组成部分包括：目标路径、'node_modules'、模板的npm名称、'template'、'plugins'、'index.js'
+  return path.resolve(targetPath, 'node_modules', template.npmName, 'template', 'plugins', 'index.js')
 }
 
 /**
