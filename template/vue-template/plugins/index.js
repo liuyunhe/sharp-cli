@@ -12,6 +12,5 @@ export default async function (api) {
       }
     ]
   })
-  console.log(mode)
   return { mode }
 }
