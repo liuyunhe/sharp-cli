@@ -16,13 +16,18 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  // 配置安全设置
   config.security = {
+    // 配置CSRF保护
     csrf: {
+      // 禁用CSRF保护
       enable: false,
     },
   };
 
+  // 配置MongoDB数据库连接
   config.mongoose = {
+    // 数据库连接URL
     url: 'mongodb://liuyh:123456@127.0.0.1:27017/sharpcli',
   };
 
