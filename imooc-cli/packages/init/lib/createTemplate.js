@@ -48,7 +48,7 @@ const TEMP_HOME = '.cli-imooc'
 async function getTemplateFromAPI() {
   try {
     const data = await request({
-      url: '/project/template',
+      url: '/v1/project',
       method: 'GET'
     })
     log.verbose('template', data)
