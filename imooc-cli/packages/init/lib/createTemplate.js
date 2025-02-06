@@ -51,10 +51,29 @@ async function getTemplateFromAPI() {
       url: '/v1/project',
       method: 'GET'
     })
-    log.verbose('template', data)
+    log.verbose('getTemplateFromAPI', data)
     return data
   } catch (error) {
     printErrorLog(error, '获取模版失败')
+    return null
+  }
+}
+async function addTemplateFromAPI() {
+  try {
+    const data = await request({
+      url: '/v1/project',
+      method: 'POST',
+      data: {
+        name: 'test',
+        value: 'test',
+        npmName: '@sharpcli/template-test',
+        version: '1.0.0'
+      }
+    })
+    log.verbose('addTemplateFromAPI', data)
+    return data
+  } catch (error) {
+    printErrorLog(error, '新增模版失败')
     return null
   }
 }

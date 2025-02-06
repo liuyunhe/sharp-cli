@@ -1,64 +1,42 @@
 const Controller = require('egg').Controller;
 
-const ADD_TEMPLATE = [
-  {
-    name: 'vue3模版',
-    value: 'template-vue',
-    npmName: '@sharpcli/template-vue',
-    version: '1.0.0',
-  },
-  {
-    name: 'react18模版',
-    value: 'template-react',
-    npmName: '@sharpcli/template-react',
-    version: '1.0.0',
-  },
-  {
-    name: 'vue-element-admin模版',
-    value: 'template-vue-element-admin',
-    npmName: '@sharpcli/template-vue-element-admin',
-    version: '1.0.0',
-  },
-];
-
 class ProjectController extends Controller {
-  // 项目模版查询
+  // 项目模板查询
   async index() {
     const { ctx } = this;
-    const res = ctx.model.Project.find({});
+    const res = await ctx.model.Project.find({});
     ctx.body = res;
   }
 
-  // 项目模版详情
-  show() {
+  // 项目模板查询
+  async show() {
     const { ctx } = this;
     const id = ctx.params.id;
-    const template = ADD_TEMPLATE.find(item => item.value === id);
-    if (template) {
-      ctx.body = template;
+    const res = await ctx.model.Project.find({ value: id });
+    if (res.length > 0) {
+      ctx.body = res[0];
     } else {
       ctx.body = {};
     }
   }
 
-  // 项目模版创建
+  // 项目模板新增
   create() {
     const { ctx } = this;
-    console.log(ctx.request.body);
-    ctx.body = 'create';
+    const body = ctx.request.body;
+    console.log(body);
+    ctx.model.Project.create(body);
+    ctx.body = 'ok';
   }
 
-  // 项目模版更新
+  // 项目模板更新
   update() {
-    const { ctx } = this;
-    ctx.body = 'update';
+    this.ctx.body = 'update';
   }
 
-  // 项目模版删除
-
+  // 项目模板删除
   destroy() {
-    const { ctx } = this;
-    ctx.body = 'destroy';
+    this.ctx.body = 'destroy';
   }
 }
 
