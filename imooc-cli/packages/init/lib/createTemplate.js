@@ -109,6 +109,17 @@ function getAddTemplate(ADD_TEMPLATE) {
   })
 }
 
+// 选择所在团队
+function getAddTeam(ADD_TEMPLATE) {
+  return makeList({
+    choices: ADD_TEMPLATE.map((item) => ({
+      name: item,
+      value: item
+    })),
+    message: '请选择团队'
+  })
+}
+
 // 安装缓存目录
 function makeTargetPath() {
   log.verbose('homedir', homedir())
@@ -132,22 +143,27 @@ export default async function createTemplate(name, opts) {
   if (addType === ADD_TYPE_PROJECT) {
     if (name) {
       addName = name
-    }else {
+    } else {
       addName = await getAddName()
     }
     log.verbose('addName', addName)
 
-    if (template) { 
+    if (template) {
       addTemplate = template
-    }else {
-      addTemplate = await getAddTemplate(ADD_TEMPLATE)
+    } else {
+      // 获取团队列表
+      let teamList = ADD_TEMPLATE.map((item) => item.team)
+      teamList = [...new Set(teamList)]
+      const addTeam = await getAddTeam(teamList)
+      log.verbose('addTeam', addTeam)
+      addTemplate = await getAddTemplate(ADD_TEMPLATE.filter((template) => template.team === addTeam))
     }
     log.verbose('addTemplate', addTemplate)
 
     const selectedTemplate = ADD_TEMPLATE.find(
       (item) => item.value === addTemplate
     )
-    if (!selectedTemplate) { 
+    if (!selectedTemplate) {
       throw new Error(`项目模板${addTemplate}不存在`)
     }
     // log.verbose('selectedTemplate', selectedTemplate)
