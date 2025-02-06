@@ -31,7 +31,7 @@ function getCacheFilePath(targetPath, template) {
 function getPluginFilePath(targetPath, template) {
   // 使用path.resolve方法构建并返回缓存文件的绝对路径
   // 路径组成部分包括：目标路径、'node_modules'、模板的npm名称、'template'、'plugins'、'index.js'
-  return path.resolve(targetPath, 'node_modules', template.npmName, 'template', 'plugins', 'index.js')
+  return path.resolve(targetPath, 'node_modules', template.npmName, 'plugins', 'index.js')
 }
 
 /**
