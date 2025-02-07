@@ -75,15 +75,20 @@ async function ejsRender(targetPath, installDir, template, name) {
   // 执行插件
   const pluginPath = getPluginFilePath(targetPath, template)
   log.verbose('pluginPath', pluginPath)
+    // 检查插件路径是否存在
   if (pathExistsSync(pluginPath)) {
-    const pluginFn = (await import(`file://${pluginPath}`)).default
-    log.verbose('pluginFn', pluginFn)
-    const api = {
-      makeList,
-      makeInput
+      // 动态导入插件模块并获取其默认导出函数
+      const pluginFn = (await import(`file://${pluginPath}`)).default
+      // 输出插件函数信息用于调试
+      log.verbose('pluginFn', pluginFn)
+      // 创建API对象，包含makeList和makeInput方法，供插件使用
+      const api = {
+        makeList,
+        makeInput
+      }
+      // 调用插件函数并传入API对象，处理异步操作
+      data = await pluginFn(api)
     }
-    data = await pluginFn(api)
-  }
   // 创建包含名称数据的对象，用于EJS模板渲染
   const ejsData = {
     data: {
