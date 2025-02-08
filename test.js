@@ -9,3 +9,6 @@ const jurl = path.join('../b', '../../url.js');
 
 console.log('rurl', rurl)
 console.log('jurl', jurl)
+
+// e801c4f6f951f72258a2e039a4e07b65
+// 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
