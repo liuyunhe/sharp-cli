@@ -1,5 +1,6 @@
 import createCli from './createCli.js'
 import createInitCommand from '@sharpcli/init'
+import createInstallCommand from '@sharpcli/install'
 import './exception.js'
 
 export default function (args) {
@@ -13,6 +14,7 @@ export default function (args) {
   //     console.log('do init', name, opts)
   //   })
   createInitCommand(program)
+  createInstallCommand(program)
 
   program.parse(process.argv)
 }
