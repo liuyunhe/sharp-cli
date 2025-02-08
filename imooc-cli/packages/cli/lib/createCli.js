@@ -13,11 +13,18 @@ import fse from 'fs-extra'
 
 import { log } from '@sharpcli/utils'
 
+import { fileURLToPath } from 'node:url'
+
 // import pkg from '../package.json'
 
 const __dirname = dirname(import.meta)
 
+const __filename = fileURLToPath(import.meta.url)
+
+// const __dirname = path.dirname(__filename)
+
 log.verbose('__dirname', __dirname)
+log.verbose('__filename', __filename)
 
 log.verbose('process.cwd()', process.cwd())
 
