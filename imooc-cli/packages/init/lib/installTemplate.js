@@ -119,6 +119,9 @@ async function ejsRender(targetPath, installDir, template, name) {
         }
       })
     })
+  }).then(() => {
+    // 渲染完成后，记录日志信息
+    log.success('模板渲染完成')
   })
 }
 
