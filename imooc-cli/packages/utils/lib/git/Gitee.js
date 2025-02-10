@@ -9,7 +9,7 @@ class Gitee extends GitServer {
     super()
     this.service = axios.create({
       baseURL: BASE_URL,
-      timeout: 15000
+      timeout: 60000
     })
     this.service.interceptors.response.use(
       (response) => {
