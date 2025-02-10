@@ -33,6 +33,8 @@ class InstallCommand extends Command {
     await this.generateGitAPI()
     await this.searchGitAPI()
     console.log(this.keyword)
+    await this.selectTags()
+    
   }
 
   async generateGitAPI() {
@@ -205,6 +207,71 @@ class InstallCommand extends Command {
   async prevPage() {
     this.page--
     await this.doSearch()
+  }
+
+  async selectTags() {
+    let tagsList
+    this.tagPage = 1
+    this.tagPerPage = 30
+    tagsList = await this.doSelectTags()
+  }
+
+  async doSelectTags() {
+    const platform = this.gitAPI.getPlatform()
+    let tagsListChoices = []
+    if (platform === 'github') {
+      const params = {
+        page: this.tagPage,
+        per_page: this.tagPerPage
+      }
+      const tagsList = await this.gitAPI.getTags(this.keyword, params)
+      tagsListChoices = tagsList.map((item) => ({
+        name: item.name,
+        value: item.name
+      }))
+      log.verbose('tagsListChoices', tagsListChoices)
+      if (tagsList.length > 0) {
+        tagsListChoices.push({
+          name: '下一页',
+          value: NEXT_PAGE
+        })
+      }
+      if (this.tagPage > 1) {
+        tagsListChoices.unshift({
+          name: '上一页',
+          value: PREV_PAGE
+        })
+      }
+    } else {
+      const tagsList = await this.gitAPI.getTags(this.keyword)
+      tagsListChoices = tagsList.map((item) => ({
+        name: item.name,
+        value: item.name
+      }))
+    }
+    const selectedTag = await makeList({
+      message: '请选择tag',
+      choices: tagsListChoices
+    })
+
+    if (selectedTag === NEXT_PAGE) {
+      await this.nextTags()
+    } else if (selectedTag === PREV_PAGE) {
+      await this.prevTags()
+    } else {
+      this.selectedTag = selectedTag
+    }
+    console.log(this.selectedTag)
+  }
+
+  async nextTags() {
+    this.tagPage++
+    await this.doSelectTags()
+  }
+
+  async prevTags() {
+    this.tagPage--
+    await this.doSelectTags()
   }
 }
 
