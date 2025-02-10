@@ -48,8 +48,12 @@ export default class GitServer {
     return token
   }
   savePlatform(platform) {
+    this.platform = platform
     const platformPath = createPlatformPath()
     fs.writeFileSync(platformPath, platform)
     log.verbose('platform', platformPath, platform)
+  }
+  getPlatform() {
+    return this.platform
   }
 }
