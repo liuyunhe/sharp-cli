@@ -6,6 +6,7 @@ import { makeList, makeInput, makePassword } from './inquirer.js'
 import { getLatestVersion } from './npm.js'
 import request from './request.js'
 import Github from './git/Github.js'
+import Gitee from './git/Gitee.js'
 import { getGitPlatform } from './git/gitServer.js'
 
 export function printErrorLog(e, type) {
@@ -25,5 +26,6 @@ export {
   getLatestVersion,
   request,
   Github,
+  Gitee,
   getGitPlatform
 }
