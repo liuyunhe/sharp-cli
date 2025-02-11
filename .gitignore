@@ -3,3 +3,4 @@ dist
 coverage
 .vscode
 imooc-cli-test
+secrets.js
