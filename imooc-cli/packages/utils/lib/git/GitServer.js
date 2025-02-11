@@ -33,6 +33,15 @@ function getProjectPath(cwd, fullName) {
   return path.resolve(cwd, projectName)
 }
 
+function getPackageJson(cwd, fullName) {
+  const projectPath = getProjectPath(cwd, fullName)
+  const pkgPath = path.resolve(projectPath, 'package.json')
+  if (pathExistsSync(pkgPath)) {
+    return fse.readJsonSync(pkgPath)
+  }
+  return null
+}
+
 export default class GitServer {
   constructor() {}
   async init() {
@@ -62,7 +71,7 @@ export default class GitServer {
   getPlatform() {
     return this.platform
   }
-  
+
   cloneRepo(fullName, tag) {
     if (tag) {
       return execa('git', ['clone', this.getRepoUrl(fullName), '-b', tag])
@@ -81,5 +90,30 @@ export default class GitServer {
       )
     }
     return null
+  }
+
+  async runRepo(cwd, fullName) {
+    const projectPath = getProjectPath(cwd, fullName)
+    const pkg = getPackageJson(cwd, fullName)
+    if (pkg) {
+      const { scripts, bin, name } = pkg
+      // if (bin) {
+      //   await execa(
+      //     'npm',
+      //     ['install', '-g', name, '--registry=https://registry.npmmirror.com'],
+      //     { cwd: projectPath, stdout: 'inherit' }
+      //   )
+      // }
+      if (scripts && scripts.dev) {
+        return execa('npm', ['run', 'dev'], {
+          cwd: projectPath,
+          stdout: 'inherit'
+        })
+      } else if (scripts && scripts.start) {
+        return execa('npm', ['start'], { cwd: projectPath, stdout: 'inherit' })
+      } else {
+        log.warn('未找到启动命令')
+      }
+    }
   }
 }

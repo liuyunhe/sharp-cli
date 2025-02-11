@@ -39,6 +39,7 @@ class InstallCommand extends Command {
     log.verbose('selected_tag', this.selectedTag)
     await this.downloadRepo()
     await this.installDependencies()
+    await this.runRepo()
   }
 
   /**
@@ -142,7 +143,7 @@ class InstallCommand extends Command {
       const params = {
         q: this.q + (this.language ? ` language:${this.language}` : ''),
         order: 'desc',
-        sort: 'stars',
+        // sort: 'stars',
         per_page: this.perPage,
         page: this.page
       }
@@ -172,7 +173,7 @@ class InstallCommand extends Command {
       const params = {
         q: this.q,
         order: 'desc',
-        sort: 'stars_count',
+        // sort: 'stars_count',
         per_page: this.perPage,
         page: this.page
       }
@@ -181,7 +182,6 @@ class InstallCommand extends Command {
       }
       log.verbose('search params', params)
       searchResult = await this.gitAPI.searchRepositories(params)
-      console.log(searchResult)
       count = 9999999
       list = searchResult.map((item) => ({
         name: `${item.full_name}(${item.description})`,
@@ -297,7 +297,6 @@ class InstallCommand extends Command {
     } else {
       this.selectedTag = selectedTag
     }
-    console.log(this.selectedTag)
   }
 
   async nextTags() {
@@ -354,6 +353,13 @@ class InstallCommand extends Command {
       spinner.stop()
       printErrorLog(e)
     }
+  }
+
+  /**
+   * 异步执行启动项目操作
+   */
+  async runRepo() {
+    await this.gitAPI.runRepo(process.cwd(), this.keyword)
   }
 }
 
