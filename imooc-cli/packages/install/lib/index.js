@@ -40,6 +40,13 @@ class InstallCommand extends Command {
     await this.downloadRepo()
   }
 
+  /**
+   * 异步生成GitAPI实例
+   *
+   * 此函数负责根据用户选择的Git平台创建相应的GitAPI实例（Github或Gitee）
+   * 它首先检查是否有已选择的平台，如果没有，则提示用户选择一个平台
+   * 根据用户的选择，创建对应平台的API实例，保存平台信息，并进行初始化
+   */
   async generateGitAPI() {
     let platform = getGitPlatform()
     if (!platform) {
@@ -68,6 +75,13 @@ class InstallCommand extends Command {
     this.gitAPI = gitAPI
   }
 
+  /**
+   * 异步执行Git API搜索
+   *
+   * 此函数首先确定当前的平台（GitHub或其他），然后根据平台选择搜索模式
+   * 在GitHub平台上，用户可以选择搜索仓库或搜索代码；对于其他平台，仅搜索仓库
+   * 之后，收集用户输入的搜索关键词和开发语言，记录搜索的关键信息，并执行搜索
+   */
   async searchGitAPI() {
     const platform = this.gitAPI.getPlatform()
 
@@ -107,6 +121,14 @@ class InstallCommand extends Command {
     this.perPage = 10
     await this.doSearch()
   }
+
+  /**
+   * 执行搜索操作
+   * 此函数根据当前设置的参数，调用GitAPI来搜索相关的项目或代码
+   * 它处理两个平台（GitHub和Gitee）的搜索逻辑，并根据搜索结果生成一个列表
+   * 如果有更多页面的结果，它还会在列表中添加“下一页”和/或“上一页”选项
+   * 最后，如果搜索结果不为空，它会提示用户选择要下载的项目
+   */
   async doSearch() {
     const platform = this.gitAPI.getPlatform()
 
@@ -212,6 +234,11 @@ class InstallCommand extends Command {
     await this.doSearch()
   }
 
+  /**
+   * 异步选择标签
+   * 此函数用于初始化或重置标签选择的分页参数，并调用doSelectTags函数获取标签列表
+   * 为什么需要异步：因为此函数内部调用了异步操作doSelectTags，使用await确保标签数据被正确处理
+   */
   async selectTags() {
     let tagsList
     this.tagPage = 1
@@ -219,6 +246,11 @@ class InstallCommand extends Command {
     tagsList = await this.doSelectTags()
   }
 
+  /**
+   * 异步执行选择标签的操作
+   * 此函数根据当前平台获取标签列表，并让用户选择一个标签
+   * 如果平台是GitHub，还会处理分页逻辑
+   */
   async doSelectTags() {
     const platform = this.gitAPI.getPlatform()
     let tagsListChoices = []
@@ -277,6 +309,10 @@ class InstallCommand extends Command {
     await this.doSelectTags()
   }
 
+  /**
+   * 异步下载仓库函数
+   * 此函数负责发起仓库下载请求，并使用 ora 库显示下载过程的加载动画
+   */
   async downloadRepo() {
     const spinner = ora(
       `正在下载: ${this.keyword}(${this.selectedTag})`
