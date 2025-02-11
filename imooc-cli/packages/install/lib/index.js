@@ -285,6 +285,10 @@ class InstallCommand extends Command {
         value: item.name
       }))
     }
+    if (tagsListChoices.length === 0) {
+      this.selectedTag = ''
+      return
+    }
     const selectedTag = await makeList({
       message: '请选择tag',
       choices: tagsListChoices
@@ -315,12 +319,12 @@ class InstallCommand extends Command {
    */
   async downloadRepo() {
     const spinner = ora(
-      `正在下载: ${this.keyword}(${this.selectedTag})`
+      `正在下载: ${this.keyword}(${this.selectedTag || 'latest'})`
     ).start()
     try {
       await this.gitAPI.cloneRepo(this.keyword, this.selectedTag)
       spinner.stop()
-      log.success(`下载成功: ${this.keyword}(${this.selectedTag})`)
+      log.success(`下载成功: ${this.keyword}(${this.selectedTag || 'latest'})`)
     } catch (e) {
       spinner.stop()
       printErrorLog(e)
@@ -335,7 +339,7 @@ class InstallCommand extends Command {
    */
   async installDependencies() {
     const spinner = ora(
-      `正在安装依赖: ${this.keyword}(${this.selectedTag})`
+      `正在安装依赖: ${this.keyword}(${this.selectedTag || 'latest'})`
     ).start()
     try {
       const ret = await this.gitAPI.installDependencies(
@@ -345,9 +349,13 @@ class InstallCommand extends Command {
       )
       spinner.stop()
       if (!ret) {
-        log.error(`依赖安装失败: ${this.keyword}(${this.selectedTag})`)
+        log.error(
+          `依赖安装失败: ${this.keyword}(${this.selectedTag || 'latest'})`
+        )
       } else {
-        log.success(`依赖安装成功: ${this.keyword}(${this.selectedTag})`)
+        log.success(
+          `依赖安装成功: ${this.keyword}(${this.selectedTag || 'latest'})`
+        )
       }
     } catch (e) {
       spinner.stop()
