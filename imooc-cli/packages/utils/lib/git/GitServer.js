@@ -3,6 +3,7 @@ import { homedir } from 'node:os'
 import fs from 'node:fs'
 import { pathExistsSync } from 'path-exists'
 import fse from 'fs-extra'
+import { execa } from 'execa'
 import { makePassword } from '../inquirer.js'
 import log from '../log.js'
 
@@ -55,5 +56,12 @@ export default class GitServer {
   }
   getPlatform() {
     return this.platform
+  }
+  cloneRepo(fullName, tag) {
+    if (tag) {
+      return execa('git', ['clone', this.getRepoUrl(fullName), '-b', tag])
+    } else {
+      return execa('git', ['clone', this.getRepoUrl(fullName)])
+    }
   }
 }

@@ -1,3 +1,4 @@
+import ora from 'ora'
 import Command from '@sharpcli/command'
 import {
   log,
@@ -5,7 +6,8 @@ import {
   Github,
   Gitee,
   getGitPlatform,
-  makeInput
+  makeInput,
+  printErrorLog
 } from '@sharpcli/utils'
 
 const PREV_PAGE = '${prev_page}'
@@ -32,9 +34,10 @@ class InstallCommand extends Command {
   async action(params) {
     await this.generateGitAPI()
     await this.searchGitAPI()
-    console.log(this.keyword)
+    log.verbose('full_name', this.keyword)
     await this.selectTags()
-    
+    log.verbose('selected_tag', this.selectedTag)
+    await this.downloadRepo()
   }
 
   async generateGitAPI() {
@@ -272,6 +275,20 @@ class InstallCommand extends Command {
   async prevTags() {
     this.tagPage--
     await this.doSelectTags()
+  }
+
+  async downloadRepo() {
+    const spinner = ora(
+      `正在下载: ${this.keyword}(${this.selectedTag})`
+    ).start()
+    try {
+      await this.gitAPI.cloneRepo(this.keyword, this.selectedTag)
+      spinner.stop()
+      log.success(`下载成功: ${this.keyword}(${this.selectedTag})`)
+    } catch (e) {
+      spinner.stop()
+      printErrorLog(e)
+    }
   }
 }
 
