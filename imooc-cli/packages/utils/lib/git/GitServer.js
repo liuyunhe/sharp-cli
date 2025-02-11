@@ -28,6 +28,11 @@ export function getGitPlatform() {
   }
 }
 
+function getProjectPath(cwd, fullName) {
+  const projectName = fullName.split('/')[1] // vuejs/vue => vue
+  return path.resolve(cwd, projectName)
+}
+
 export default class GitServer {
   constructor() {}
   async init() {
@@ -57,11 +62,24 @@ export default class GitServer {
   getPlatform() {
     return this.platform
   }
+  
   cloneRepo(fullName, tag) {
     if (tag) {
       return execa('git', ['clone', this.getRepoUrl(fullName), '-b', tag])
     } else {
       return execa('git', ['clone', this.getRepoUrl(fullName)])
     }
+  }
+
+  installDependencies(cwd, fullName) {
+    const projectPath = getProjectPath(cwd, fullName)
+    if (pathExistsSync(projectPath)) {
+      return execa(
+        'npm',
+        ['install', '--registry=https://registry.npmmirror.com'],
+        { cwd: projectPath }
+      )
+    }
+    return null
   }
 }

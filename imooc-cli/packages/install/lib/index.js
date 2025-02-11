@@ -38,6 +38,7 @@ class InstallCommand extends Command {
     await this.selectTags()
     log.verbose('selected_tag', this.selectedTag)
     await this.downloadRepo()
+    await this.installDependencies()
   }
 
   /**
@@ -264,7 +265,7 @@ class InstallCommand extends Command {
         name: item.name,
         value: item.name
       }))
-      log.verbose('tagsListChoices', tagsListChoices)
+      // log.verbose('tagsListChoices', tagsListChoices)
       if (tagsList.length > 0) {
         tagsListChoices.push({
           name: '下一页',
@@ -321,6 +322,34 @@ class InstallCommand extends Command {
       await this.gitAPI.cloneRepo(this.keyword, this.selectedTag)
       spinner.stop()
       log.success(`下载成功: ${this.keyword}(${this.selectedTag})`)
+    } catch (e) {
+      spinner.stop()
+      printErrorLog(e)
+    }
+  }
+
+  /**
+   * 异步安装依赖函数
+   *
+   * 此函数负责调用gitAPI安装项目依赖，并通过ora库创建一个加载指示器来提升用户体验
+   * 它会根据安装结果输出成功或错误信息，并确保在任何情况下加载指示器能够正确停止
+   */
+  async installDependencies() {
+    const spinner = ora(
+      `正在安装依赖: ${this.keyword}(${this.selectedTag})`
+    ).start()
+    try {
+      const ret = await this.gitAPI.installDependencies(
+        process.cwd(),
+        this.keyword,
+        this.selectedTag
+      )
+      spinner.stop()
+      if (!ret) {
+        log.error(`依赖安装失败: ${this.keyword}(${this.selectedTag})`)
+      } else {
+        log.success(`依赖安装成功: ${this.keyword}(${this.selectedTag})`)
+      }
     } catch (e) {
       spinner.stop()
       printErrorLog(e)
