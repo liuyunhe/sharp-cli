@@ -17,6 +17,8 @@
   "dependencies": {
     "@sharpcli/command": "^0.0.0",
     "@sharpcli/utils": "^0.0.0",
+    "eslint": "^8.28.0",
+    "execa": "^9.5.2",
     "ora": "^8.2.0"
   }
 }
