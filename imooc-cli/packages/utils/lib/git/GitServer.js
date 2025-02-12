@@ -10,6 +10,8 @@ import log from '../log.js'
 const TEMP_HOME = '.cli-imooc'
 const TEMP_TOKEN = '.token'
 const TEMP_PLATFORM = '.git_platform'
+const TEMP_OWN = '.git_own'
+const TEMP_LOGIN = '.git_login'
 
 function createTokenPath() {
   return path.resolve(homedir(), TEMP_HOME, TEMP_TOKEN)
@@ -17,6 +19,14 @@ function createTokenPath() {
 
 function createPlatformPath() {
   return path.resolve(homedir(), TEMP_HOME, TEMP_PLATFORM)
+}
+
+function createOwnPath() {
+  return path.resolve(homedir(), TEMP_HOME, TEMP_OWN)
+}
+
+function createLoginPath() {
+  return path.resolve(homedir(), TEMP_HOME, TEMP_LOGIN)
 }
 
 export function getGitPlatform() {
@@ -38,6 +48,21 @@ function getPackageJson(cwd, fullName) {
   const pkgPath = path.resolve(projectPath, 'package.json')
   if (pathExistsSync(pkgPath)) {
     return fse.readJsonSync(pkgPath)
+  }
+  return null
+}
+
+
+export function getGitOwn() {
+  if (pathExistsSync(createOwnPath())) {
+    return fs.readFileSync(createOwnPath()).toString()
+  }
+  return null
+}
+
+export function getGitLogin() {
+  if (pathExistsSync(createLoginPath())) {
+    return fs.readFileSync(createLoginPath()).toString()
   }
   return null
 }
@@ -68,8 +93,26 @@ export default class GitServer {
     fs.writeFileSync(platformPath, platform)
     log.verbose('platform', platformPath, platform)
   }
+
+  saveOwn(own) {
+    this.own = own
+    fs.writeFileSync(createOwnPath(), own)
+  }
+
+  saveLogin(login) {
+    this.login = login
+    fs.writeFileSync(createLoginPath(), login)
+  }
   getPlatform() {
     return this.platform
+  }
+
+  getOwn() {
+    return this.own
+  }
+
+  getLogin() {
+    return this.login
   }
 
   cloneRepo(fullName, tag) {
