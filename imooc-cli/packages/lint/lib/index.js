@@ -1,9 +1,11 @@
 import path from 'node:path'
+import fs from 'node:fs'
 import { ESLint } from 'eslint'
 import { execa } from 'execa'
 import ora from 'ora'
 import jest from 'jest'
 import Mocha from 'mocha'
+import fse from 'fs-extra'
 import Command from '@sharpcli/command'
 import { log, printErrorLog, makeList } from '@sharpcli/utils'
 import vueConfig from './eslint/vueConfig.js'
@@ -48,14 +50,9 @@ class LintCommand extends Command {
     }
   }
 
-  async action() {
-    log.verbose('lint')
+  async eslint() {
     // 1. eslint
     // 准备工作，安装依赖
-    // "devDependencies": {
-    //   "eslint-config-airbnb-base": "^15.0.0",
-    //   "eslint-plugin-vue": "^9.32.0"
-    // }
     const spinner = ora('正在安装依赖').start()
     try {
       await execa('npm', ['install', '-D', 'eslint-plugin-vue'])
@@ -72,7 +69,7 @@ class LintCommand extends Command {
       cwd,
       overrideConfig: vueConfig
     })
-    const results = await eslint.lintFiles(['src/**/*.js', 'src/**/*.vue'])
+    const results = await eslint.lintFiles(['./src/**/*.js', './src/**/*.vue'])
     const formatter = await eslint.loadFormatter('stylish')
     const resultText = formatter.format(results)
     console.log(resultText)
@@ -83,17 +80,61 @@ class LintCommand extends Command {
       '错误: ' + eslintResult.errors,
       '，警告: ' + eslintResult.warnings
     )
-    // 2. jest
-    log.info('自动执行jest测试')
-    await jest.run('test')
-    log.success('jest测试执行完毕')
-    // 3. mocha
-    log.info('自动执行mocha测试')
-    const mochaInstance = new Mocha()
-    mochaInstance.addFile(path.resolve(cwd, '__tests__/mocha_test.js'))
-    mochaInstance.run(() => {
-      log.success('mocha测试执行完毕')
-    })
+  }
+
+  async autoTest() {
+    // 执行自动化测试之前，让用户选择采用哪种方法进行测试
+    const cwd = process.cwd()
+    let testMode
+    const sharpConfigFile = path.resolve(cwd, '.sharp-cli')
+    let config
+    if (fs.existsSync(sharpConfigFile)) {
+      config = fse.readJsonSync(sharpConfigFile)
+      testMode = config.testMode
+      if (!testMode) {
+        testMode = await makeList({
+          message: '请选择自动化测试方法',
+          choices: [
+            { name: 'jest', value: 'jest' },
+            { name: 'mocha', value: 'mocha' }
+          ]
+        })
+        config.testMode = testMode
+        fse.writeJsonSync(sharpConfigFile, config)
+      }
+      
+    } else {
+      testMode = await makeList({
+        message: '请选择自动化测试方法',
+        choices: [
+          { name: 'jest', value: 'jest' },
+          { name: 'mocha', value: 'mocha' }
+        ]
+      })
+      fse.writeJsonSync(sharpConfigFile, {
+        testMode
+      })
+    }
+    if (testMode === 'jest') {
+      // 2. jest
+      log.info('自动执行jest测试')
+      await jest.run('test')
+      log.success('jest测试执行完毕')
+    } else {
+      // 3. mocha
+      log.info('自动执行mocha测试')
+      const mochaInstance = new Mocha()
+      mochaInstance.addFile(path.resolve(cwd, '__tests__/mocha_test.js'))
+      mochaInstance.run(() => {
+        log.success('mocha测试执行完毕')
+      })
+    }
+  }
+
+  async action() {
+    log.verbose('lint')
+    await this.eslint()
+    await this.autoTest()
   }
 }
 
