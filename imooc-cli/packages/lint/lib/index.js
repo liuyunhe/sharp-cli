@@ -1,6 +1,9 @@
+import path from 'node:path'
 import { ESLint } from 'eslint'
 import { execa } from 'execa'
 import ora from 'ora'
+import jest from 'jest'
+import Mocha from 'mocha'
 import Command from '@sharpcli/command'
 import { log, printErrorLog, makeList } from '@sharpcli/utils'
 import vueConfig from './eslint/vueConfig.js'
@@ -49,6 +52,10 @@ class LintCommand extends Command {
     log.verbose('lint')
     // 1. eslint
     // 准备工作，安装依赖
+    // "devDependencies": {
+    //   "eslint-config-airbnb-base": "^15.0.0",
+    //   "eslint-plugin-vue": "^9.32.0"
+    // }
     const spinner = ora('正在安装依赖').start()
     try {
       await execa('npm', ['install', '-D', 'eslint-plugin-vue'])
@@ -71,15 +78,22 @@ class LintCommand extends Command {
     console.log(resultText)
     const eslintResult = this.parseESLintResult(resultText)
     log.verbose('eslintResult', eslintResult)
-    //   "devDependencies": {
-    //   "eslint-config-airbnb-base": "^15.0.0",
-    //   "eslint-plugin-vue": "^9.32.0"
-    // }
     log.success(
       'eslint检查完毕',
       '错误: ' + eslintResult.errors,
       '，警告: ' + eslintResult.warnings
     )
+    // 2. jest
+    log.info('自动执行jest测试')
+    await jest.run('test')
+    log.success('jest测试执行完毕')
+    // 3. mocha
+    log.info('自动执行mocha测试')
+    const mochaInstance = new Mocha()
+    mochaInstance.addFile(path.resolve(cwd, '__tests__/mocha_test.js'))
+    mochaInstance.run(() => {
+      log.success('mocha测试执行完毕')
+    })
   }
 }
 
