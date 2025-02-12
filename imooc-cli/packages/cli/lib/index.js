@@ -2,6 +2,7 @@ import createCli from './createCli.js'
 import createInitCommand from '@sharpcli/init'
 import createInstallCommand from '@sharpcli/install'
 import createLintCommand from '@sharpcli/lint'
+import createCommitCommand from '@sharpcli/commit'
 import './exception.js'
 
 export default function (args) {
@@ -17,6 +18,7 @@ export default function (args) {
   createInitCommand(program)
   createInstallCommand(program)
   createLintCommand(program)
+  createCommitCommand(program)
 
   program.parse(process.argv)
 }

@@ -28,6 +28,7 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
+    "@sharpcli/commit": "^0.0.0",
     "@sharpcli/init": "^0.0.0",
     "@sharpcli/install": "^0.0.0",
     "@sharpcli/lint": "^0.0.0",
