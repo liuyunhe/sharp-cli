@@ -3,9 +3,7 @@ import Command from '@sharpcli/command'
 import {
   log,
   makeList,
-  Github,
-  Gitee,
-  getGitPlatform,
+  initGitServer,
   makeInput,
   printErrorLog
 } from '@sharpcli/utils'
@@ -50,31 +48,7 @@ class InstallCommand extends Command {
    * 根据用户的选择，创建对应平台的API实例，保存平台信息，并进行初始化
    */
   async generateGitAPI() {
-    let platform = getGitPlatform()
-    if (!platform) {
-      platform = await makeList({
-        choices: [
-          {
-            name: 'Github',
-            value: 'github'
-          },
-          {
-            name: 'Gitee',
-            value: 'gitee'
-          }
-        ],
-        message: '请选择git平台'
-      })
-    }
-    let gitAPI
-    if (platform === 'github') {
-      gitAPI = new Github()
-    } else {
-      gitAPI = new Gitee()
-    }
-    gitAPI.savePlatform(platform)
-    await gitAPI.init()
-    this.gitAPI = gitAPI
+    this.gitAPI = await initGitServer()
   }
 
   /**
