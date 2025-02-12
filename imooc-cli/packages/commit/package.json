@@ -16,6 +16,7 @@
   "type": "module",
   "dependencies": {
     "@sharpcli/command": "^0.0.0",
-    "@sharpcli/utils": "^0.0.0"
+    "@sharpcli/utils": "^0.0.0",
+    "fs-extra": "^11.3.0"
   }
 }
