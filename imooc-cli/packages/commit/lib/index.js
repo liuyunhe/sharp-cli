@@ -60,6 +60,7 @@ class CommitCommand extends Command {
     const dir = process.cwd()
     const pkg = fse.readJsonSync(path.resolve(dir, 'package.json'))
     this.name = pkg.name
+    this.version = pkg.version || '1.0.0'
     await createRemoteRepo(this.gitAPI, this.name)
     // 4. 生成.gitignore
     const gitIgnorePath = path.resolve(dir, '.gitignore')
@@ -115,24 +116,24 @@ class CommitCommand extends Command {
     if (!remotes.find((remote) => remote.name === 'origin')) {
       this.git.addRemote('origin', remoteUrl)
       log.success('添加git remote', remoteUrl)
-    }
 
-    // 检查未提交的代码
-    await this.checkNotCommitted()
+      // 检查未提交的代码
+      await this.checkNotCommitted()
 
-    // 检查远程master分支是否存在
-    const tags = await this.git.listRemote(['--refs'])
-    log.verbose('listRemote', tags)
-    console.log(tags)
-    if (tags.indexOf('refs/heads/master') > -1) {
-      // 拉取远程master分支，实现代码同步
-      await this.pullRemoteRepo('master', {
-        // 防止.git被删除之后，无法提交，这里允许不相关的历史记录
-        '--allow-unrelated-histories': null
-      })
-    } else {
-      // 直接推送当前到master分支
-      await this.pushRemoteRepo('master')
+      // 检查远程master分支是否存在
+      const tags = await this.git.listRemote(['--refs'])
+      log.verbose('listRemote', tags)
+      console.log(tags)
+      if (tags.indexOf('refs/heads/master') > -1) {
+        // 拉取远程master分支，实现代码同步
+        await this.pullRemoteRepo('master', {
+          // 防止.git被删除之后，无法提交，这里允许不相关的历史记录
+          '--allow-unrelated-histories': null
+        })
+      } else {
+        // 直接推送当前到master分支
+        await this.pushRemoteRepo('master')
+      }
     }
   }
 
@@ -344,6 +345,7 @@ class CommitCommand extends Command {
           if (a === b) return 0
           return -1
         }
+        return 1
       })
   }
 
