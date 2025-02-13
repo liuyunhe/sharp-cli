@@ -76,6 +76,8 @@ export async function initGitType(gitAPI) {
       '未获取到用户的Git登录信息！请使用"sharp-cli commit --clear"清除缓存后重试'
     )
   }
+  log.verbose('gitLogin', gitLogin)
+  log.verbose('gitOwn', gitOwn)
   gitAPI.saveOwn(gitOwn)
   gitAPI.saveLogin(gitLogin)
   return gitLogin

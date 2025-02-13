@@ -52,14 +52,21 @@ function getPackageJson(cwd, fullName) {
   return null
 }
 
-
+/**
+ * 从缓存中获取仓库类型
+ *
+ * user或org
+ */
 export function getGitOwn() {
   if (pathExistsSync(createOwnPath())) {
     return fs.readFileSync(createOwnPath()).toString()
   }
   return null
 }
-
+/**
+ * 从缓存中获取仓库登录用户名
+ *
+ */
 export function getGitLogin() {
   if (pathExistsSync(createLoginPath())) {
     return fs.readFileSync(createLoginPath()).toString()
@@ -67,8 +74,31 @@ export function getGitLogin() {
   return null
 }
 
+/**
+ * 清除缓存文件
+ *
+ * 此函数负责清除应用中的缓存文件，包括平台、令牌、个人和登录信息
+ */
+export function clearCache() {
+  const platform = createPlatformPath()
+  const token = createTokenPath()
+  const own = createOwnPath()
+  const login = createLoginPath()
+  fse.removeSync(platform)
+  fse.removeSync(token)
+  fse.removeSync(own)
+  fse.removeSync(login)
+}
+
 export default class GitServer {
   constructor() {}
+
+  /**
+   * 异步初始化方法
+   *
+   * 本方法主要用于初始化过程中加载或获取token，并确保token被持久化
+   * 以便于后续的使用
+   */
   async init() {
     // 判断token是否录入
     const tokenPath = createTokenPath()
@@ -78,8 +108,7 @@ export default class GitServer {
       this.token = await this.getToken()
       fs.writeFileSync(tokenPath, this.token)
     }
-    log.verbose('token', this.token)
-    log.verbose('token path', tokenPath, pathExistsSync(tokenPath))
+    log.verbose('token', tokenPath, this.token)
   }
   async getToken() {
     const token = await makePassword({
@@ -158,5 +187,17 @@ export default class GitServer {
         log.warn('未找到启动命令')
       }
     }
+  }
+
+  getUser() {
+    throw new Error('getUser must be implemented!')
+  }
+
+  getOrg() {
+    throw new Error('getOrg must be implemented!')
+  }
+
+  createRepo() {
+    throw new Error('createRepo must be implemented!')
   }
 }
