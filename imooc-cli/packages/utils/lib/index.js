@@ -13,7 +13,7 @@ import {
   getGitLogin,
   clearCache
 } from './git/gitServer.js'
-import { initGitServer, initGitType } from './git/GitUtils.js'
+import { initGitServer, initGitType, createRemoteRepo } from './git/GitUtils.js'
 
 export function printErrorLog(e, type) {
   if (isDebug()) {
@@ -38,5 +38,6 @@ export {
   getGitLogin,
   clearCache,
   initGitServer,
-  initGitType
+  initGitType,
+  createRemoteRepo
 }

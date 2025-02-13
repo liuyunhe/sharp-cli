@@ -82,3 +82,8 @@ export async function initGitType(gitAPI) {
   gitAPI.saveLogin(gitLogin)
   return gitLogin
 }
+
+export async function createRemoteRepo(gitAPI, name) {
+  const ret = await gitAPI.createRepo(name)
+  log.verbose('createRemoteRepo', ret.html_url)
+}

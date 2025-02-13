@@ -1,13 +1,14 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import fse from 'fs-extra'
+import SimpleGit from 'simple-git'
 import Command from '@sharpcli/command'
 import {
   log,
-  printErrorLog,
   initGitServer,
   initGitType,
-  makeList
+  clearCache,
+  createRemoteRepo
 } from '@sharpcli/utils'
 
 const CACHE_DIR = '.cli-imooc'
@@ -23,20 +24,25 @@ class CommitCommand extends Command {
   }
 
   get options() {
-    return []
+    return [['-c, --clear', '清空缓存', false]]
   }
 
-  async action() {
+  async action([{ clear }]) {
     log.verbose('commit')
-    this.createRemoteRepo()
+    log.verbose('commit params clear', clear)
+    if (clear) {
+      clearCache()
+    }
+
+    ;('')
+    await this.createRemoteRepo()
+    await this.initLocal()
   }
 
   // 阶段1：创建远程仓库
   async createRemoteRepo() {
     // 1. 实例化Git对象
     this.gitAPI = await initGitServer()
-    console.log(this.gitAPI)
-    return
     // 2. 仓库类型选择
     await initGitType(this.gitAPI)
     // 3. 创建远程仓库
@@ -77,6 +83,39 @@ class CommitCommand extends Command {
       )
       log.success('.gitignore创建成功')
     }
+  }
+
+  // 阶段2：git本地初始化
+  async initLocal() {
+    // 生成git remote地址
+    const remoteUrl = this.gitAPI.getRepoUrl(
+      `${this.gitAPI.login}/${this.name}`
+    )
+    // 初始化git对象
+    this.git = SimpleGit(process.cwd())
+    // 判断当前项目是否进行git初始化
+    const gitDir = path.resolve(process.cwd(), '.git')
+    if (!fs.existsSync(gitDir)) {
+      // 实现git初始化
+      await this.git.init()
+      log.success('完成git初始化')
+    }
+    // 获取所有的remotes
+    const remotes = await this.git.getRemotes()
+    if (!remotes.find((remote) => remote.name === 'origin')) {
+      this.git.addRemote('origin', remoteUrl)
+      log.success('添加git remote', remoteUrl)
+    }
+    
+    const status = await this.git.status()
+    log.verbose('git status', status)
+    // 拉取远程master分支，实现代码同步
+    await this.git.pull('origin', 'master').catch((err) => {
+      log.verbose('git pull origin master', err.message)
+      if (err.message.indexOf("Couldn't find remote ref master") >= 0) {
+        log.warn('获取远程[master]分支失败')
+      }
+    })
   }
 }
 
