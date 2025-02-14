@@ -180,8 +180,8 @@ class CommitCommand extends Command {
   async checkTag() {
     log.info('获取远程 tag 列表')
     const tag = `release/${this.version}`
-    const tagList = await this.getRemoteBranchList('release')
-    log.verbose('tagList', tagList, this.version)
+    const tagList = await this.getRemoteList('release')
+    log.verbose('tag tagList', tag, tagList)
     if (tagList.includes(this.version)) {
       log.info(`远程${tag} 已存在`)
       // 删除tag也是通过push命令
@@ -207,14 +207,16 @@ class CommitCommand extends Command {
     await this.pullRemoteRepo('master')
     log.success('合并远程 [master] 分支成功')
     log.info('检查远程分支')
-    const remoteBranchList = await this.getRemoteBranchList()
-    if (remoteBranchList.indexOf(this.version) >= 0) {
-      log.info(`合并 [${this.branch}] -> [${this.branch}]`)
+    const remoteDevBranchList = await this.getRemoteList()
+    log.verbose('version', this.version)
+    log.verbose('remoteDevBranchList', remoteDevBranchList)
+    if (remoteDevBranchList.indexOf(this.version) >= 0) {
+      log.info(`合并 [refs/heads/${this.branch}] -> [${this.branch}]`)
       await this.pullRemoteRepo(this.branch)
       log.success(`合并远程 [${this.branch}] 分支成功`)
       await this.checkConflicted()
     } else {
-      log.success('不存在远程分支')
+      log.success(`不存在远程分支 [${this.branch}]`)
     }
   }
 
@@ -226,6 +228,7 @@ class CommitCommand extends Command {
     } else {
       // 创建分支
       await this.git.checkoutLocalBranch(branchName)
+      log.success(`创建本地分支 ${branchName}`)
     }
 
     log.success(`本地分支切换到 ${branchName}`)
@@ -254,11 +257,11 @@ class CommitCommand extends Command {
 
   async getCorrectVersion() {
     log.info('获取分支')
-    const remoteBranchList = await this.getRemoteBranchList('release')
-
+    const remoteReleaseTagsList = await this.getRemoteList('release')
+    log.verbose('remoteReleaseTagsList', remoteReleaseTagsList)
     let releaseVersion = ''
-    if (remoteBranchList && remoteBranchList.length > 0) {
-      releaseVersion = remoteBranchList[0]
+    if (remoteReleaseTagsList && remoteReleaseTagsList.length > 0) {
+      releaseVersion = remoteReleaseTagsList[0]
     }
 
     const devVersion = this.version
@@ -320,21 +323,23 @@ class CommitCommand extends Command {
     }
   }
 
-  async getRemoteBranchList(type) {
+  async getRemoteList(type) {
+    // 获取远程分支列表  git ls-remote --refs
     const remoteList = await this.git.listRemote(['--refs'])
     let reg
     if (type === 'release') {
       // release/0.0.1
-      reg = /.+?refs\/tags\/release\/(\d+\.\d+\.\d+)/
+      reg = /.+?refs\/tags\/release\/(\d+\.\d+\.\d+)/g
     } else {
       // dev/0.0.1
-      reg = /.+?refs\/tags\/dev\/(\d+\.\d+\.\d+)/
+      reg = /.+?refs\/heads\/dev\/(\d+\.\d+\.\d+)/g
     }
     log.verbose('remoteList', remoteList)
     return remoteList
       .split('\n')
       .map((remote) => {
         const match = reg.exec(remote)
+        reg.lastIndex = 0
         if (match && semver.valid(match[1])) {
           return match[1]
         }
