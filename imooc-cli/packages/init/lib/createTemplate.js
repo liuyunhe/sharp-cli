@@ -126,6 +126,18 @@ function makeTargetPath() {
   return path.resolve(`${homedir()}/${TEMP_HOME}`, 'addTemplate')
 }
 
+
+/**
+ * 创建项目模版
+ * 
+ * 此函数用于根据用户提供的参数和选项创建一个项目模版，它首先尝试从API获取模版，
+ * 如果模版不存在，则抛出错误然后，它根据用户是否提供了类型和名称进行不同的处理，
+ * 并最终确定要使用的模版。如果模版类型不受支持，则抛出错误。
+ * 
+ * @param {string} name - 项目名称
+ * @param {Object} opts - 包含额外选项的对象，如类型和模版
+ * @returns {Object} 返回一个包含项目类型、名称、选定的模版和目标路径的对象
+ */
 export default async function createTemplate(name, opts) {
   // 获取模版
   const ADD_TEMPLATE = await getTemplateFromAPI()
