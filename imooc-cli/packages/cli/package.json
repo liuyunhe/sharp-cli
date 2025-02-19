@@ -1,6 +1,6 @@
 {
   "name": "@sharpcli/cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A cli tool for sharp",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
   "homepage": "https://github.com/liuyunhe/sharp-cli#readme",
@@ -28,11 +28,11 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
-    "@sharpcli/commit": "^1.0.2",
-    "@sharpcli/init": "^1.0.2",
-    "@sharpcli/install": "^1.0.2",
-    "@sharpcli/lint": "^1.0.2",
-    "@sharpcli/utils": "^1.0.2",
+    "@sharpcli/commit": "^1.0.3",
+    "@sharpcli/init": "^1.0.3",
+    "@sharpcli/install": "^1.0.3",
+    "@sharpcli/lint": "^1.0.3",
+    "@sharpcli/utils": "^1.0.3",
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "dirname-filename-esm": "^1.1.2",

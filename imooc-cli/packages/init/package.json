@@ -1,6 +1,6 @@
 {
   "name": "@sharpcli/init",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "init command",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
   "homepage": "https://github.com/liuyunhe/sharp-cli#readme",
@@ -24,8 +24,8 @@
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
   "dependencies": {
-    "@sharpcli/command": "^1.0.2",
-    "@sharpcli/utils": "^1.0.2",
+    "@sharpcli/command": "^1.0.3",
+    "@sharpcli/utils": "^1.0.3",
     "ejs": "^3.1.10",
     "execa": "^9.5.2",
     "fs-extra": "^11.3.0",
