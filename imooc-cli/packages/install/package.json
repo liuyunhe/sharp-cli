@@ -18,5 +18,6 @@
     "@sharpcli/command": "^1.0.2",
     "@sharpcli/utils": "^1.0.2",
     "ora": "^8.2.0"
-  }
+  },
+  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d"
 }

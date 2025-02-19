@@ -23,5 +23,6 @@
   "bugs": {
     "url": "https://github.com/liuyunhe/sharp-cli/issues"
   },
-  "type": "module"
+  "type": "module",
+  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d"
 }

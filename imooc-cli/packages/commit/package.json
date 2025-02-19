@@ -20,5 +20,6 @@
     "fs-extra": "^11.3.0",
     "semver": "^7.7.1",
     "simple-git": "^3.27.0"
-  }
+  },
+  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d"
 }

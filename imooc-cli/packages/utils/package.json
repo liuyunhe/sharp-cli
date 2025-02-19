@@ -32,5 +32,6 @@
     "path-exists": "^5.0.0",
     "url-join": "^5.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d"
 }
