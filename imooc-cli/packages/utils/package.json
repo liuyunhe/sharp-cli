@@ -33,5 +33,8 @@
     "url-join": "^5.0.0"
   },
   "type": "module",
-  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d"
+  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d",
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -47,5 +47,8 @@
     "execa": "^6.1.0",
     "jest": "^29.7.0"
   },
-  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d"
+  "gitHead": "ef6595b5f1857bc04f72e0a0df13b9487049800d",
+  "publishConfig": {
+    "access": "public"
+  }
 }
