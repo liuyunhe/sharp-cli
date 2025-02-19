@@ -1,6 +1,6 @@
 {
   "name": "@sharpcli/command",
-  "version": "0.0.0",
+  "version": "1.0.2",
   "description": "common command class",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
   "homepage": "https://github.com/liuyunhe/sharp-cli#readme",

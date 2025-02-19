@@ -1,6 +1,6 @@
 {
   "name": "@sharpcli/lint",
-  "version": "0.0.0",
+  "version": "1.0.2",
   "description": "A lint tool for sharpcli",
   "author": "liuyunhe <liuyunhe666@aliyun.com>",
   "homepage": "https://github.com/liuyunhe/sharp-cli#readme",
@@ -15,8 +15,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@sharpcli/command": "^0.0.0",
-    "@sharpcli/utils": "^0.0.0",
+    "@sharpcli/command": "^1.0.2",
+    "@sharpcli/utils": "^1.0.2",
     "eslint": "^8.28.0",
     "execa": "^9.5.2",
     "fs-extra": "^11.3.0",
