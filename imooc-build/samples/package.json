@@ -1,0 +1,25 @@
+{
+  "name": "samples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "imooc-build start --debug --stop-build",
+    "build": "imooc-build build",
+    "vite": "imooc-build start --stop-build --config imooc-vite.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^5.5.0",
+    "vite": "^2.9.14",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "@vue/cli-service": "^5.0.4",
+    "vue-template-compiler": "^2.6.14"
+  }
+}
