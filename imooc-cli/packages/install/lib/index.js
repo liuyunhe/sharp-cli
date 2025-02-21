@@ -29,14 +29,22 @@ class InstallCommand extends Command {
     ]
   }
 
-  async action(params) {
+  async action() {
+    // 生成Git API实例，用于后续的API调用
     await this.generateGitAPI()
+    // 使用生成的Git API进行搜索操作
     await this.searchGitAPI()
+    // 记录搜索关键字
     log.verbose('full_name', this.keyword)
+    // 选择特定的标签
     await this.selectTags()
+    // 记录选定的标签
     log.verbose('selected_tag', this.selectedTag)
+    // 下载选定标签对应的仓库
     await this.downloadRepo()
+    // 安装下载的仓库中的依赖项
     await this.installDependencies()
+    // 运行安装好依赖的仓库中的项目
     await this.runRepo()
   }
 
